@@ -1,7 +1,8 @@
 *.pyc
 *.out
-*.txt
 .vscode/
 __pycache__
 log/*
 db_auth.py
+html_code.txt
+venv/

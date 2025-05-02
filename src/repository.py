@@ -1,6 +1,5 @@
-import repository.db_auth as db_auth
-import pymysql.cursors  # python과 mysql(mariadb) 연동
-## 일주일에 한 번 씩 실행될 것임. ##
+import db_auth as db_auth
+import pymysql.cursors
 
 class MenuRepository:
     def __init__(self) -> None:

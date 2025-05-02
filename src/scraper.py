@@ -37,23 +37,4 @@ driver.quit()
 # BeautifulSoup 파싱
 soup = BeautifulSoup(aram_html, 'html.parser')
 
-# 날짜 정보 추출 및 딕셔너리로 변환
-day_date = {}
-days = ['월', '화', '수', '목', '금', '토', '일']
-
-th_tags = soup.find_all('th')  # <th> 태그 찾기
-
-for th_tag in th_tags[1:8]:
-    day = th_tag.contents[0].strip()  # 요일 
-    date = th_tag.find('br').next_sibling  # <br> 태그 다음 텍스트 노드 추출
-    if date is not None:
-        date = date.strip()
-        day_date[day] = date
-
-menu_html = soup.find('tbody')
-all_menulist = menu_html.find_all('tr')
-
-morning_html = all_menulist[0].find_all('td')
-lunch_html = all_menulist[1].find_all('td')
-dinner_html = all_menulist[2].find_all('td')
 

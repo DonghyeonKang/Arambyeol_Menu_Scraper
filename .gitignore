@@ -1,8 +1,19 @@
-*.pyc
-*.out
-.vscode/
-__pycache__
-log/*
-db_auth.py
-html_code.txt
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
 venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+
+# Data
+html_files/
+*.html 

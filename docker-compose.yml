@@ -1,63 +1,18 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/arambyeol?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    depends_on:
-      mysql:
-        condition: service_healthy
-    restart: unless-stopped
-    networks:
-      - arambyeol-network
-
   scraper:
-    build: 
-      context: ./scraper
-      dockerfile: Dockerfile
-    environment:
-      - TZ=Asia/Seoul
-      - MYSQL_HOST=mysql
-      - MYSQL_DATABASE=arambyeol
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./html_files:/app/html_files
     depends_on:
       mysql:
         condition: service_healthy
-    networks:
-      - arambyeol-network
-
-  mysql:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: arambyeol
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_CHARACTER_SET_SERVER: utf8mb4
-      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./docker/mysql/conf.d:/etc/mysql/conf.d
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - arambyeol-network
 
 networks:
   arambyeol-network:
-    driver: bridge
-
-volumes:
-  mysql-data:
-    driver: local
+    external: true
